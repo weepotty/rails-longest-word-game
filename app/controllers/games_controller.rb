@@ -10,21 +10,25 @@ class GamesController < ApplicationController
   end
 
   def score
+    session[:score] = 0 unless session[:score]
     message(params)
+    @score = session[:score]
   end
+
 
   private
 
+
   def message(params)
+    @message_prefix = 'Sorry but'
+
     if word_english?(params) && word_from_grid?(params)
-      # @calculated_score = attempt_array.length / time_taken
       @message_prefix = 'Congratulations!'
       @message_suffix = 'is a valid English word!'
+      session[:score] += params['word'].length
     elsif !word_from_grid?(params)
-      @message_prefix = 'Sorry but'
       @message_suffix = "can't be built out of #{params['grid'].split.join(', ')}"
     elsif !word_english?(params)
-      @message_prefix = 'Sorry but'
       @message_suffix = 'does not seem to be a valid English word...'
     end
   end
@@ -41,4 +45,6 @@ class GamesController < ApplicationController
     attempt_array = params['word'].upcase.chars
     possible_words.include?(attempt_array)
   end
+
+
 end
