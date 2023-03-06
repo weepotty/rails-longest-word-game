@@ -16,4 +16,12 @@
 
  body {
   padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+ }
+
+ .btn {
+  padding: 1rem;
+
  }

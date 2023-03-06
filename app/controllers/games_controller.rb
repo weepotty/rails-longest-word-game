@@ -10,19 +10,35 @@ class GamesController < ApplicationController
   end
 
   def score
+    message(params)
+  end
+
+  private
+
+  def message(params)
+    if word_english?(params) && word_from_grid?(params)
+      # @calculated_score = attempt_array.length / time_taken
+      @message_prefix = 'Congratulations!'
+      @message_suffix = 'is a valid English word!'
+    elsif !word_from_grid?(params)
+      @message_prefix = 'Sorry but'
+      @message_suffix = "can't be built out of #{params['grid'].split.join(', ')}"
+    elsif !word_english?(params)
+      @message_prefix = 'Sorry but'
+      @message_suffix = 'does not seem to be a valid English word...'
+    end
+  end
+
+  def word_english?(params)
     @word = params['word']
     word_check = JSON.parse(URI.open("https://wagon-dictionary.herokuapp.com/#{@word}").read)
-    grid = params['grid'].split
-    attempt_array = @word.upcase.chars
-    possible_words = grid.permutation(@word.length).to_a
+    word_check['found']
+  end
 
-    if word_check['found'] && possible_words.include?(attempt_array)
-      # @calculated_score = attempt_array.length / time_taken
-      @message = "Congratulations! #{@word.upcase} is a valid English word!"
-    elsif !possible_words.include?(attempt_array)
-      @message = "Sorry but #{@word.upcase} can't be built out of #{grid.join(', ')}"
-    elsif !word_check['found']
-      @message = "Sorry but #{@word.upcase} does not seem to be a valid English word..."
-    end
+  def word_from_grid?(params)
+    grid = params['grid'].split
+    possible_words = grid.permutation(@word.length).to_a
+    attempt_array = params['word'].upcase.chars
+    possible_words.include?(attempt_array)
   end
 end
