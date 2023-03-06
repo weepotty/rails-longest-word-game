@@ -4,12 +4,14 @@
 <% end %>
 
 <form action="/score" method='POST' data-turbo="false">
-<label for="">What is the longest word you can find?</label>
+<label>What is the longest word you can find?</label>
 <div class="input-group mb-3">
   <input type="text" class="form-control" placeholder="Enter your word" name="word">
   <div class="input-group-append">
     <span><input type='submit' value='Play' class="input-group-text"></span>
   </div>
+
 </div>
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <%= hidden_field_tag 'grid', @letters %>
 </form>

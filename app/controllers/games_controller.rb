@@ -14,8 +14,19 @@ class GamesController < ApplicationController
     url = "https://wagon-dictionary.herokuapp.com/#{@word}"
     word_attempt = URI.open(url).read
     word_check = JSON.parse(word_attempt)
+    grid = params['grid'].split
+    attempt_array = @word.upcase.chars
+    possible_words = grid.permutation(@word.length).to_a
 
-    @valid = word_check['found']? 'yes' : 'no'
+    if word_check['found'] && possible_words.include?(attempt_array)
+      # @calculated_score = attempt_array.length / time_taken
+      @message = 'Well done'
+    elsif !possible_words.include?(attempt_array)
+      @message = 'not in the grid'
+    elsif !word_check['found']
+      @message = 'not an english word'
+    end
+
   end
 end
 
