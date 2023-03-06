@@ -20,11 +20,11 @@ class GamesController < ApplicationController
 
     if word_check['found'] && possible_words.include?(attempt_array)
       # @calculated_score = attempt_array.length / time_taken
-      @message = 'Well done'
+      @message = "Congratulations! #{@word.upcase} is a valid English word!"
     elsif !possible_words.include?(attempt_array)
-      @message = 'not in the grid'
+      @message = "Sorry but #{@word.upcase} can't be built out of #{grid.join}"
     elsif !word_check['found']
-      @message = 'not an english word'
+      @message = "Sorry but #{@word.upcase} does not seem to be a valid English word..."
     end
 
   end
