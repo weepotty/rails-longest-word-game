@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'json'
+
 class GamesController < ApplicationController
   def new
     @letters = []
@@ -8,6 +11,11 @@ class GamesController < ApplicationController
 
   def score
     @word = params['word']
+    url = "https://wagon-dictionary.herokuapp.com/#{@word}"
+    word_attempt = URI.open(url).read
+    word_check = JSON.parse(word_attempt)
+
+    @valid = word_check['found']? 'yes' : 'no'
   end
 end
 
