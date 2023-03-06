@@ -3,10 +3,10 @@
   <span class='btn btn-primary'><%= letter %></span>
 <% end %>
 
-<form action="/score" method="POST" data-turbo="false">
+<form action="/score" method='POST' data-turbo="false">
 <label for="">What is the longest word you can find?</label>
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Enter your word">
+  <input type="text" class="form-control" placeholder="Enter your word" name="word">
   <div class="input-group-append">
     <span><input type='submit' value='Play' class="input-group-text"></span>
   </div>
